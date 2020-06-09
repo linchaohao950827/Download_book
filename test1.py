@@ -16,6 +16,7 @@ def get_urls(mulu_url):
     return urls
 
 
+#   利用BeautifulSoup进行筛选
 def download_book(mulu_url):
     urls1 = get_urls(mulu_url)
     for url1 in urls1:
@@ -37,34 +38,38 @@ download_book('http://www.lewengu.com/books/3/3454/')
 
 
 # import re
-# import urllib.request
+# import requests
+# from bs4 import BeautifulSoup
 #
 #
-# # 定义一个爬取网络小说的函数
-# def getNovelContent():
-#     html = urllib.request.urlopen("http://www.quanshuwang.com/book/44/44683").read()
-#     html = html.decode("gbk")  # 转成该网址的格式
-#     # <li><a href="http://www.quanshuwang.com/book/44/44683/15379609.html" title="引子 穿越的唐家三少，共2744字">引子 穿越的唐家三少</a></li>  #参考
-#     reg = r'<li><a href="(.*?)" title=".*?">(.*?)</a></li>'  # 正则表达的匹配
-#     reg = re.compile(reg)  # 可添加可不添加，增加效率
-#     urls = re.findall(reg, html)
-#     for url in urls:
-#         print(url)
-#         # chapter_url = url[0]  # 章节的超链接
-#         # chapter_title = url[1]  # 章节的名字
-#         # # print(chapter_title)
-#         # chapter_html = urllib.request.urlopen(chapter_url).read()  # 正文内容源代码
-#         # chapter_html = chapter_html.decode("gbk")
-#         # chapter_reg = r'</script>&nbsp;&nbsp;&nbsp;&nbsp;.*?<br />(.*?)<script type="text/javascript">'
-#         # chapter_reg = re.compile(chapter_reg, re.S)
-#         # chapter_content = re.findall(chapter_reg, chapter_html)
-#         # for content in chapter_content:
-#         #     content = content.replace("&nbsp;&nbsp;&nbsp;&nbsp;", "")
-#         #     content = content.replace("<br />", "")
-#         #     # print(content)
-#         #     f = open('{}.txt'.format(chapter_title), 'w')
-#         #     f.write(content)
+# def get_urls(mulu_url):
+#     a = requests.get(mulu_url).content
+#     b = a.decode('utf-8')
+#     soup = BeautifulSoup(b, features="html.parser")
+#     c = soup.select('.dccss')
+#     urls = []
+#     for i in range(len(c) - 3):
+#         url = "https://www.lewengu.com" + c[i].a['href']
+#         urls.append(url)
+#     return urls
 #
 #
-# getNovelContent()
+# #   利用正则表达式进行筛选
+# urls1 = get_urls("https://www.lewengu.com/books/65/65466/")
+# for url1 in urls1:
+#     a = requests.get(url1).content
+#     a = a.decode("utf-8")
+#     reg1 = r'<H1>(.*?)</H1>'
+#     reg1 = re.compile(reg1)
+#     chapter_title = re.findall(reg1, a)[0]
+#     reg2 = r'<P>(.*?)</P>'
+#     reg2 = re.compile(reg2)
+#     chapter_content = re.findall(reg2, a)[0]
+#     content = chapter_content.replace("&nbsp;&nbsp;&nbsp;&nbsp;", "\t")
+#     content = content.replace("<br /><br />", "\r\n")
+#     f = open('ceshi.txt', 'a')
+#     f.write(chapter_title + "\r\n")
+#     f.write(content + "\r\n")
+
+
 
